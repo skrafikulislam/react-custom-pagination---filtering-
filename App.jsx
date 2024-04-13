@@ -25,10 +25,18 @@ const App = () => {
   const changeHandle = (m) => {
     setCurrentPage(m);
   };
+  const filteredData = data.filter((item) =>
+    search.toLowerCase() === ""
+      ? true
+      : item.name.toLowerCase().includes(search) ||
+        item.email.toLowerCase().includes(search)
+  );
+  const paginatedData = filteredData.slice(firstIndex, lastIndex);
+
   return (
     <div className="app">
       <div className="heading">
-        <h1>Blow is the Data</h1>
+        <h1>Below is the Data</h1>
       </div>
       <div className="search">
         <input
@@ -39,25 +47,20 @@ const App = () => {
       <div className="table">
         <table className="table">
           <thead>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email</th>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Email</th>
+            </tr>
           </thead>
           <tbody>
-            {records
-              .filter((item) =>
-                search.toLowerCase() === ""
-                  ? item
-                  : item.name.toLowerCase().includes(search) ||
-                    item.email.toLowerCase().includes(search)
-              )
-              .map((item, i) => (
-                <tr key={i}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.email}</td>
-                </tr>
-              ))}
+            {paginatedData.map((item, i) => (
+              <tr key={i}>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>{item.email}</td>
+              </tr>
+            ))}
           </tbody>
         </table>{" "}
       </div>
